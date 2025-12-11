@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🗂️ Stories Feed</h2>
+
+<form class="row" method="get" style="margin-bottom:10px">
+  <label class="pill">Sort:
+    <select name="sort" onchange="this.form.submit()">
+      <option value="new" {{ 'selected' if sort=='new' else '' }}>Newest</option>
+      <option value="liked" {{ 'selected' if sort=='liked' else '' }}>Most Liked</option>
+      <option value="viewed" {{ 'selected' if sort=='viewed' else '' }}>Most Viewed</option>
+    </select>
+  </label>
+  <label class="pill">Filter tag:
+    <input name="tag" value="{{ tag }}" placeholder="e.g., ghosted">
+  </label>
+  <button class="btn">Apply</button>
+  <a class="btn right" href="{{ url_for('submit') }}">+ Submit</a>
+</form>
+
+<div class="cards">
+{% for r in rows %}
+  <div class="card">
+    {% if r.image_filename %}
+      <img src="{{ url_for('uploads', filename=r.image_filename) }}"
+           alt="{{ r.girl_name }}"
+           style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:10px; border:1px solid rgba(255,255,255,.12)">
+    {% endif %}
+
+    <a style="color:#fff;text-decoration:none" href="{{ url_for('story_detail', post_id=r.id) }}">
+      <strong style="font-size:20px">{{ r.girl_name }}</strong>
+    </a>
+
+    <div class="story-meta" style="margin:6px 0 8px;">
+      📅 {{ r.created_at|timeago }} • 👁️ {{ r.views }} • by {{ r.username }}
+    </div>
+
+    <p class="muted" style="margin:6px 0 10px;">
+      {{ r.story[:160] }}{% if r.story|length > 160 %}…{% endif %}
+    </p>
+
+    {% if r.tags %}
+      <div class="row" style="margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+        {% for t in (r.tags or '').split(',') if t.strip() %}
+          <a class="pill" href="{{ url_for('stories', tag=t.strip()) }}">{{ t.strip() }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form class="row" style="margin-top:4px" onsubmit="return false;">
+      <button class="react-btn" onclick="react{{ r.id }}()">❤️ {{ r.likes }}</button>
+      <a class="btn" href="{{ url_for('story_detail', post_id=r.id) }}">Read</a>
+    </form>
+    <script>
+      async function react{{ r.id }}(){
+        await fetch('{{ url_for("react", post_id=r.id) }}', {
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body: new URLSearchParams({kind:'heart'})
+        });
+        location.reload();
+      }
+    </script>
+  </div>
+{% else %}
+  <p class="muted">No posts yet. Be the first!</p>
+{% endfor %}
+</div>
+{% endblock %}

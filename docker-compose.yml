@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: heardhim-web
+    ports:
+      - "8000:8000"
+    volumes:
+      # SQLite DB
+      - ./data:/data
+      # Logs
+      - ./logs:/var/log/app
+      # Upload sandbox
+      - ./uploads_sandbox:/uploads_sandbox
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if row.image_filename %}
+  <div style="width:100%; max-width:900px; margin:0 auto 24px;">
+    <img src="{{ url_for('uploads', filename=row.image_filename) }}"
+         alt="{{ row.girl_name }}"
+         style="width:100%; height:auto; border-radius:22px; object-fit:cover; box-shadow:0 6px 20px rgba(0,0,0,.25);">
+  </div>
+{% endif %}
+
+<h2 style="font-size:32px; margin-bottom:6px;">{{ row.girl_name }}</h2>
+
+<p class="muted" style="margin-top:0; margin-bottom:12px;">
+  📅 {{ row.created_at|timeago }} &nbsp;&nbsp; 👁️ {{ row.views }} views &nbsp;&nbsp; by {{ row.username }}
+</p>
+
+<div class="card" style="margin-top:0;">
+  <p style="white-space:pre-wrap; margin-top:6px;">{{ row.story }}</p>
+
+  {% if row.tags %}
+    <div class="row" style="margin-top:10px; flex-wrap:wrap; gap:10px;">
+      {% for t in (row.tags or '').split(',') if t.strip() %}
+        <a class="pill" href="{{ url_for('stories', tag=t.strip()) }}">{{ t.strip() }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <hr style="border-color:rgba(255,255,255,.08); margin:16px 0;">
+  <h3>React to this story</h3>
+
+  <!-- Row 1: emoji reactions -->
+  <div class="row" style="margin-top:8px; flex-wrap:wrap;">
+    <button class="react-btn" onclick="sendReact('laugh')">😂 <span id="c-laugh">{{ row.laugh_count or 0 }}</span></button>
+    <button class="react-btn" onclick="sendReact('shock')">😱 <span id="c-shock">{{ row.shock_count or 0 }}</span></button>
+    <button class="react-btn" onclick="sendReact('skull')">💀 <span id="c-skull">{{ row.skull_count or 0 }}</span></button>
+    <button class="react-btn" onclick="sendReact('heart')">❤️ <span id="c-heart">{{ row.likes }}</span></button>
+  </div>
+
+ <!-- Row 2: report + delete -->
+<div class="row" style="margin-top:10px; gap:10px;">
+  <a class="pill" href="{{ url_for('report') }}">Report</a>
+  <a class="pill" href="{{ url_for('delete_post', post_id=row.id) }}">Delete</a>
+</div>
+
+{% if related %}
+<h3 style="margin-top:24px;">Related</h3>
+<div class="cards">
+  {% for r in related %}
+    <a class="card" href="{{ url_for('story_detail', post_id=r.id) }}" style="text-decoration:none;color:inherit">
+      <strong>{{ r.girl_name }}</strong>
+      <div class="story-meta">{{ r.location or '—' }} • {{ r.tags or 'no tags' }}</div>
+      <p class="muted">{{ r.story[:120] }}{% if r.story|length>120 %}…{% endif %}</p>
+    </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+<script>
+async function sendReact(kind){
+  try {
+    const res = await fetch('{{ url_for("react", post_id=row.id) }}', {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({kind})
+    });
+    if(res.ok){
+      const el = document.getElementById('c-'+(kind==='heart'?'heart':kind));
+      el.textContent = (parseInt(el.textContent||'0',10)+1).toString();
+    }
+  } catch(e){}
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🔍 Search</h2>
+<form method="post" class="card">
+  <div class="grid">
+    <label>Girl's name <input name="girl_name" value="{{ query }}"></label>
+    <label>City <input name="city" placeholder="optional"></label>
+    <label>School / How you met <input name="school" placeholder="class, club, team..."></label>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <button class="primary" type="submit">Search</button>
+    <a class="btn" href="{{ url_for('stories') }}">Browse all</a>
+  </div>
+</form>
+
+{% if results %}
+  <h3 style="margin-top:18px">Results ({{ results|length }})</h3>
+  <div class="cards">
+  {% for r in results %}
+    <a class="card" href="{{ url_for('story_detail', post_id=r.id) }}" style="color:inherit;text-decoration:none">
+      <div class="story-item">
+        {% if r.image_filename %}
+          <img src="{{ url_for('uploads', filename=r.image_filename) }}" alt="">
+        {% else %}
+          <img src="https://dummyimage.com/96x96/eaf4ff/0b1220&text=💬" alt="">
+        {% endif %}
+        <div>
+          <strong>{{ r.girl_name }}</strong>
+          <div class="story-meta">{{ r.location or '—' }} • {{ r.tags or 'no tags' }}</div>
+          <p class="muted">{{ r.story[:120] }}{% if r.story|length > 120 %}…{% endif %}</p>
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+  </div>
+{% elif results is not none %}
+  <p class="muted">No matches.</p>
+{% endif %}
+{% endblock %}

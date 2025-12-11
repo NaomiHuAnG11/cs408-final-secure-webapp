@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📝 Submit a Story</h2>
+<form method="post" enctype="multipart/form-data" class="card">
+  <label>Girl's name <input name="girl_name" required></label>
+  <label>Your story <textarea name="story" required rows="6" placeholder="Keep it respectful and anonymized."></textarea></label>
+
+  <!-- Suggested tags row (click to add; not hashtags) -->
+  <div class="row" style="margin:4px 0 6px">
+    <span class="muted">Suggested tags:</span>
+    {% set suggestions = ['red flags','ghosted','situationship','green flags','toxic','love bombing','cheater','player'] %}
+    {% for s in suggestions %}
+      <button type="button" class="pill" onclick="addTag('{{ s }}')">{{ s }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="grid">
+    <label>Tags (comma-separated) <input id="tagsInput" name="tags" placeholder="red flags, situationship"></label>
+    <label>Age <input name="age" placeholder="optional"></label>
+    <label>Location <input name="location" placeholder="City, ST"></label>
+  </div>
+  <label>How you met <input name="how_met" placeholder="e.g., class, party, team"></label>
+  <label>Username (optional) <input name="username" placeholder="Anonymous if blank"></label>
+  <label>Image (optional) <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif,.webp"></label>
+  <button type="submit" class="primary">Post</button>
+</form>
+
+<script>
+function addTag(t){
+  const el = document.getElementById('tagsInput');
+  const cur = (el.value || '').split(',').map(x=>x.trim()).filter(Boolean);
+  if(!cur.includes(t)){ cur.push(t); }
+  el.value = cur.join(', ');
+  el.focus();
+}
+</script>
+{% endblock %}

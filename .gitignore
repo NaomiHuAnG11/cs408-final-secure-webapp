@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Your SQLite database (never push DB to GitHub)
+app.db
+
+# Docker data
+data/
+
+# Logs
+logs/
+
+# Upload directories
+uploads_sandbox/
+static/uploads/
+
+# OS/editor junk
+.DS_Store
+*.swp

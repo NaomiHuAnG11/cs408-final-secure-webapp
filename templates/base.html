@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heard it from him</title>
+  <style>
+    :root{
+      --bg1:#cfe9ff;   /* light baby blue */
+      --bg2:#eaf4ff;
+      --panel:#0b1220;
+      --card:#0f172a;
+      --accent:#58b3ff;
+      --white:#f8fbff;
+      --red:#ff3b3b;
+    }
+    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+    body{
+      margin:0; color:#eaf2ff;
+      background: radial-gradient(1200px 800px at 20% -10%, var(--bg2), var(--bg1)) fixed;
+      min-height:100dvh;
+    }
+    header{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      padding:16px 22px; background:rgba(15,23,42,.25); backdrop-filter: blur(6px);
+      position:sticky; top:0; border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .brand{font-weight:800; font-size:20px; color:#fff; text-decoration:none}
+    nav a, .btn{
+      color:#cfe9ff; text-decoration:none; padding:8px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    nav a:hover, .btn:hover{background:rgba(255,255,255,.09)}
+    .container{max-width:980px; margin:32px auto; padding:0 16px}
+    .hero{ text-align:center; margin:42px 0 28px}
+    .tagline{ margin-top:6px; color: var(--red); text-transform: uppercase; font-weight:700; }
+    .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+    .card{background:rgba(10,15,28,.6); padding:18px; border-radius:18px; border:1px solid rgba(255,255,255,.06)}
+    h1{font-size:44px;margin:10px 0 8px;color:#ffffff}
+    h2{margin:8px 0 12px;color:#ffffff}
+    label{display:block;margin:10px 0 6px; color:#e8f3ff}
+    input, textarea, select{
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.15);
+      background:#fff; color:#0b1220;
+    }
+    button{cursor:pointer}
+    button, .primary{
+      background:var(--accent); color:#0b1220; border:none; padding:10px 16px; border-radius:12px; font-weight:700;
+    }
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .pill{padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06)}
+    .muted{opacity:.75}
+    .flash{background:#003d91;color:#fff;padding:10px 12px;border-radius:10px;margin:8px 0}
+    .story-item{display:grid; grid-template-columns: 96px 1fr; gap:14px; align-items:flex-start}
+    .story-item img{width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,.15)}
+    .right{margin-left:auto}
+    footer{opacity:.8;text-align:center;padding:28px}
+    /* replace old .react-btn */
+.react-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:16px; line-height:1;
+  padding:6px 12px; border-radius:999px;
+  background:rgba(255,255,255,.06);
+  color:#fff; border:1px solid rgba(255,255,255,.20);
+}
+.react-btn span{ font-weight:700 }
+.feed-title a {
+  color: #ff3b3b;                /* red color for STORY FEED title */
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+}
+
+.feed-title a:hover {
+  opacity: 0.85;
+}
+</style>
+</head>
+<body>
+  <header>
+    <!-- Brand now links to Home -->
+    <a class="brand" href="{{ url_for('home') }}">Heard it from him</a>
+    <nav class="row">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('search') }}">Search</a>
+      <a href="{{ url_for('stories') }}">Feed</a>
+      <a href="{{ url_for('submit') }}" class="btn">Submit Story</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with msgs = get_flashed_messages() %}
+      {% if msgs %}{% for m in msgs %}<div class="flash">{{ m }}</div>{% endfor %}{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <a class="pill" href="{{ url_for('about') }}">About / Rules</a>
+    <a class="pill" href="{{ url_for('report') }}">Report</a>
+  </footer>
+</body>
+</html>

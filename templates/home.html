@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Heard it from him</h1>
+
+  <!-- LOGO under the title -->
+ <img src="{{ url_for('static', filename='images/logo.png') }}"
+     alt="logo"
+     style="margin:20px auto 0; display:block; width:730px; height:auto; border-radius:18px;">
+  <!-- Red uppercase line -->
+  <p class="tagline">SEARCH, READ, AND SHARE CAMPUS DATING STORIES.</p>
+
+  <div class="row" style="justify-content:center; margin-top:14px; gap:16px;">
+    <a class="primary" href="{{ url_for('submit') }}" 
+       style="background:#4da3ff; color:#000; font-weight:700; text-decoration:none; border-radius:14px; padding:12px 24px; box-shadow:0 2px 4px rgba(0,0,0,.2);">
+       📝 Share Your Story
+    </a>
+
+    <a class="primary" href="{{ url_for('stories') }}" 
+       style="background:#4da3ff; color:#000; font-weight:700; text-decoration:none; border-radius:14px; padding:12px 24px; box-shadow:0 2px 4px rgba(0,0,0,.2);">
+       🗂️ Browse Stories
+    </a>
+  </div>
+</section>
+
+
+
+<section class="cards">
+  <div class="card">
+    <h3>🔍 Search Stories</h3>
+    <p>Find posts by name, city, or where you met.</p>
+    <a class="btn" href="{{ url_for('search') }}">Start Searching</a>
+  </div>
+  <div class="card">
+    <h3>📝 Share Anonymously</h3>
+    <p>Upload an optional photo, add tags, and keep it respectful.</p>
+    <a class="btn" href="{{ url_for('submit') }}">Submit a Story</a>
+  </div>
+  <div class="card">
+    <h3>🛡️ Consent & Rules</h3>
+    <p>We moderate for safety. Read the guidelines.</p>
+    <a class="btn" href="{{ url_for('about') }}">Read Rules</a>
+  </div>
+</section>
+{% endblock %}

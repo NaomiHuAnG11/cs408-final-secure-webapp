@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🗑️ Delete Post #{{ row.id }}</h2>
+<div class="card">
+  <p class="muted">This will permanently remove the post and its uploaded image (if any).</p>
+  <p><strong>{{ row.girl_name }}</strong> — "{{ row.story[:120] }}{% if row.story|length>120 %}…{% endif %}"</p>
+
+  {% if row.image_filename %}
+    <img src="{{ url_for('uploads', filename=row.image_filename) }}"
+         alt=""
+         style="width:100%; max-width:520px; height:auto; border-radius:12px; margin:10px 0;">
+  {% endif %}
+
+  <form method="post" class="row" style="margin-top:10px; gap:10px;">
+    <label>Delete Code
+      <input type="password" name="code" placeholder="Enter delete code" required>
+    </label>
+    <button class="primary" type="submit">Delete permanently</button>
+    <a class="btn" href="{{ url_for('story_detail', post_id=row.id) }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

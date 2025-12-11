@@ -1,0 +1,10 @@
+heart
+laugh
+shock
+skull
+xxx
+123
+<script>
+NULL
+FUZZ
+BADINPUT

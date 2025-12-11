@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Heard It From Him</title>
+  </head>
+  <body>
+    <h1>Heard It From Him – Stories</h1>
+
+    <p><a href="{{ url_for('submit') }}">Submit a new story</a></p>
+
+    {% if stories %}
+      <ul>
+        {% for story in stories %}
+          <li>
+            <h3>{{ story['title'] }}</h3>
+            <p>{{ story['body'] }}</p>
+            <small>Tags: {{ story['tags'] }} | Created: {{ story['created_at'] }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No stories yet. <a href="{{ url_for('submit') }}">Be the first to submit one!</a></p>
+    {% endif %}
+  </body>
+</html>

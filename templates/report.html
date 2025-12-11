@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Report a Post</h2>
+<form method="post" class="card">
+  <label>Post ID <input name="post_id" placeholder="e.g., 3"></label>
+  <label>Reason <textarea name="reason" rows="4" placeholder="Why is this inappropriate?"></textarea></label>
+  <button class="primary" type="submit">Submit report</button>
+</form>
+{% endblock %}
