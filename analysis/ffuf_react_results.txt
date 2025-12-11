@@ -1,0 +1,10 @@
+[2Kshock                   [Status: 404, Size: 207, Words: 27, Lines: 6, Duration: 34ms][0m
+[2K123                     [Status: 400, Size: 167, Words: 18, Lines: 6, Duration: 37ms][0m
+[2K<script>                [Status: 400, Size: 167, Words: 18, Lines: 6, Duration: 37ms][0m
+[2Kheart                   [Status: 404, Size: 207, Words: 27, Lines: 6, Duration: 38ms][0m
+[2Kskull                   [Status: 404, Size: 207, Words: 27, Lines: 6, Duration: 38ms][0m
+[2Klaugh                   [Status: 404, Size: 207, Words: 27, Lines: 6, Duration: 38ms][0m
+[2Kxxx                     [Status: 400, Size: 167, Words: 18, Lines: 6, Duration: 38ms][0m
+[2KBADINPUT                [Status: 400, Size: 167, Words: 18, Lines: 6, Duration: 38ms][0m
+[2KFUZZ                    [Status: 400, Size: 167, Words: 18, Lines: 6, Duration: 39ms][0m
+[2KNULL                    [Status: 400, Size: 167, Words: 18, Lines: 6, Duration: 39ms][0m
